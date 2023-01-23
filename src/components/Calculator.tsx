@@ -1,22 +1,24 @@
 import * as React from "react";
 import './calculator.css';
+import Wave from 'react-wavify'
+
 
 import { btns, BTN_ACTIONS } from './btnConfig';
 
-interface Props {}
+interface Props { }
 
 const Calculator: React.FC<Props> = () => {
-    const btnsRef  = React.useRef<HTMLDivElement>(null);
-    const expRef  = React.useRef<HTMLDivElement>(null);;
+    const btnsRef = React.useRef<HTMLDivElement>(null);
+    const expRef = React.useRef<HTMLDivElement>(null);;
     const [expression, setExpression] = React.useState('');
     React.useEffect(() => {
-        const btns:HTMLButtonElement[] = btnsRef.current ? Array.from(btnsRef.current.querySelectorAll('button')) : [];
-        btns.forEach((e: HTMLButtonElement) => e.style.height = e.offsetWidth + 'px');    
+       /* const btns: HTMLButtonElement[] = btnsRef.current ? Array.from(btnsRef.current.querySelectorAll('button')) : [];
+        btns.forEach((e: HTMLButtonElement) => e.style.height = e.offsetWidth + 'px');*/
     }, []);
 
-    const btnClick = (item : {display:string; action: string; class: string;}) => {
-      
-        const expDiv :any = expRef.current
+    const btnClick = (item: { display: string; action: string; class: string; }) => {
+
+        const expDiv: any = expRef.current
         console.log(expDiv)
         if (item.action === BTN_ACTIONS.THEME) document.body.classList.toggle('dark');
         if (item.action === BTN_ACTIONS.ADD) {
@@ -58,8 +60,8 @@ const Calculator: React.FC<Props> = () => {
         }
     }
 
-    const addAnimSpan = (content:any) => {
-        const expDiv :any = expRef.current;
+    const addAnimSpan = (content: any) => {
+        const expDiv: any = expRef.current;
         const span = document.createElement('span');
 
         span.innerHTML = content.toString();
@@ -78,24 +80,39 @@ const Calculator: React.FC<Props> = () => {
     return (
         <div className="calculator">
 
-          <div className="calculator__result">
+            <div className="calculator__result">
+            
                 <div ref={expRef} className="calculator__result__exp">
+                    
                 </div>
-                <div className="calculator__result__exp"></div>
+                <div className="calculator__result__exp">
+                
+                </div>
             </div>
             <div ref={btnsRef} className="calculator__btns">
+            <Wave 
+            className="calculator__btns__background"
+            fill='#fff'
+                        paused={false}
+                        options={{
+                            height: 0,
+                            amplitude: 20,
+                            speed: 0.15,
+                            points: 5
+                        }}
+                    />
                 {
                     btns.map((item, index) => (
                         <button
                             key={index}
                             className={item.class}
-                            onClick={()=>btnClick(item) }
+                            onClick={() => btnClick(item)}
                         >
                             {item.display}
                         </button>
                     ))
                 }
-            </div>  
+            </div>
         </div>
     );
 }
